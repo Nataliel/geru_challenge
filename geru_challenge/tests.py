@@ -53,7 +53,7 @@ class TestHomeViewSuccessCondition(BaseTest):
     def test_passing_view(self):
         info = home_view(dummy_request(self.session))
         self.assertEqual(info['quote'].name, 'quote 2.')
-        self.assertEqual(info['project'], 'geru_challenge')
+        self.assertEqual(info['project'], 'Web Challenge 1.0')
 
 
 class TestHomeViewFailureCondition(BaseTest):
@@ -77,7 +77,7 @@ class TestGetQuotesViewSuccessCondition(BaseTest):
 
     def test_passing_view(self):
         info = get_quotes(dummy_request(self.session))
-        response = {"quotes": ['quote 1.', 'quote 2.']}
+        response = {'quotes': [{'name': 'quote 1.'}, {'name': 'quote 2.'}]}
         self.assertEqual(info, response)
 
 

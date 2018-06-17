@@ -15,7 +15,7 @@ class QuoteModel(Base):
         return "<QuoteModel(name='%s')>" % self.name
 
 
-class QuoteQuery(object):
+class QuoteQueryset(object):
 
     def __init__(self, request):
         self.dbsession = request.dbsession

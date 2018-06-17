@@ -2,8 +2,9 @@ from sqlalchemy.exc import DBAPIError
 
 from pyramid.response import Response
 from pyramid.view import view_config
+from geru_challenge.component import parse_query_to_dict
 
-from geru_challenge.models.quote_model import QuoteModel, QuoteQuery
+from geru_challenge.models.quote_model import QuoteModel, QuoteQueryset
 
 
 db_err_msg = """
@@ -23,20 +24,6 @@ try it again.
 """
 
 
-def parse_query_to_dict(query, key_name):
-    """
-    Auxiliary method to format queries
-    :param query: query
-    :param key_name: key of dict
-    :return: dict formatted - example: {"quotes": ["quote 1.", "quote 2."]}
-    """
-    query_to_dict = {key_name: []}
-    for obj in query:
-        query_to_dict[key_name].append(obj.name)
-
-    return query_to_dict
-
-
 @view_config(route_name='home', renderer='../templates/home.jinja2')
 def home_view(request):
     """
@@ -49,7 +36,7 @@ def home_view(request):
         quote = query.filter(QuoteModel.name == 'quote 2.').first()
     except DBAPIError:
         return Response(db_err_msg, content_type='text/plain', status=500)
-    return {'quote': quote, 'project': 'geru_challenge'}
+    return {'quote': quote, 'project': 'Web Challenge 1.0'}
 
 
 @view_config(route_name='get_quotes', renderer='json')
@@ -59,7 +46,7 @@ def get_quotes(request):
     :param request:
     :return: list of quotes
     """
-    quote_query = QuoteQuery(request).get_quotes()
+    quote_query = QuoteQueryset(request).get_quotes()
 
     if quote_query:
         return parse_query_to_dict(quote_query, 'quotes')
@@ -75,7 +62,7 @@ def get_quote(request):
     :return: just an one quote by id
     """
     quote_number = request.matchdict.get('quote_number')
-    quote_query = QuoteQuery(request).get_quote(quote_number)
+    quote_query = QuoteQueryset(request).get_quote(quote_number)
 
     if quote_query:
         return {"quote": quote_query.name}
@@ -90,7 +77,7 @@ def get_quote_random(request):
     :param request:
     :return: just an one random quote
     """
-    quote_query = QuoteQuery(request).get_quote_random()
+    quote_query = QuoteQueryset(request).get_quote_random()
 
     if quote_query:
         return {"quote": quote_query.name}
