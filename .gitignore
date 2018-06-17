@@ -8,5 +8,6 @@
 .idea
 .gitmodules
 production.ini
+.pytest_cache
 geru_challenge.egg-info
 geru_challenge.sqlite

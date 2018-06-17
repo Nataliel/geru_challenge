@@ -2,20 +2,13 @@ import os
 import sys
 import transaction
 
-from pyramid.paster import (
-    get_appsettings,
-    setup_logging,
-    )
-
+from pyramid.paster import (get_appsettings, setup_logging,)
 from pyramid.scripts.common import parse_vars
 
-from ..models.meta import Base
-from ..models import (
-    get_engine,
-    get_session_factory,
-    get_tm_session,
-    )
-from ..models import MyModel
+from geru_challenge.models import get_engine, get_session_factory, get_tm_session
+from geru_challenge.models.meta import Base
+from geru_challenge.models.quote_model import QuoteModel
+
 
 
 def usage(argv):
@@ -41,5 +34,7 @@ def main(argv=sys.argv):
     with transaction.manager:
         dbsession = get_tm_session(session_factory, transaction.manager)
 
-        model = MyModel(name='one', value=1)
-        dbsession.add(model)
+        # loads the quotes fixture into the database
+        for count in range(1, 10):
+            model = QuoteModel(name='quote %s.' % count)
+            dbsession.add(model)
