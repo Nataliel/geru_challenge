@@ -2,7 +2,7 @@ import base64
 from datetime import datetime
 import os
 
-from pyramid.compat import pickle, bytes_
+from pyramid.compat import bytes_
 from sqlalchemy import Column, Integer, Text, DateTime
 
 from geru_challenge.models.meta import Base
