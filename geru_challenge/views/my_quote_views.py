@@ -4,7 +4,7 @@ from pyramid.response import Response
 from pyramid.view import view_config
 from geru_challenge.component import parse_query_to_dict
 
-from geru_challenge.models.quote_model import QuoteModel, QuoteQueryset
+from geru_challenge.models.quote_model import MyQuoteModel, MyQuoteQueryset
 
 
 db_err_msg = """
@@ -32,8 +32,8 @@ def home_view(request):
     :return:
     """
     try:
-        query = request.dbsession.query(QuoteModel)
-        quote = query.filter(QuoteModel.name == 'quote 2.').first()
+        query = request.dbsession.query(MyQuoteModel)
+        quote = query.filter(MyQuoteModel.name == 'quote 2.').first()
     except DBAPIError:
         return Response(db_err_msg, content_type='text/plain', status=500)
     return {'quote': quote, 'project': 'Web Challenge 1.0'}
@@ -46,7 +46,7 @@ def get_quotes(request):
     :param request:
     :return: list of quotes
     """
-    quote_query = QuoteQueryset(request).get_quotes()
+    quote_query = MyQuoteQueryset(request).get_quotes()
 
     if quote_query:
         return parse_query_to_dict(quote_query, 'quotes')
@@ -62,7 +62,7 @@ def get_quote(request):
     :return: just an one quote by id
     """
     quote_number = request.matchdict.get('quote_number')
-    quote_query = QuoteQueryset(request).get_quote(quote_number)
+    quote_query = MyQuoteQueryset(request).get_quote(quote_number)
 
     if quote_query:
         return {"quote": quote_query.name}
@@ -77,7 +77,7 @@ def get_quote_random(request):
     :param request:
     :return: just an one random quote
     """
-    quote_query = QuoteQueryset(request).get_quote_random()
+    quote_query = MyQuoteQueryset(request).get_quote_random()
 
     if quote_query:
         return {"quote": quote_query.name}

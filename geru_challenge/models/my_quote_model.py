@@ -3,8 +3,8 @@ from sqlalchemy import Column, Integer, Text
 from geru_challenge.models.meta import Base
 
 
-class QuoteModel(Base):
-    __tablename__ = 'QuoteModel'
+class MyQuoteModel(Base):
+    __tablename__ = 'MyQuoteModel'
     id = Column(Integer, primary_key=True)
     name = Column(Text)
 
@@ -12,10 +12,10 @@ class QuoteModel(Base):
         return self.name
 
     def __repr__(self):
-        return "<QuoteModel(name='%s')>" % self.name
+        return "<MyQuoteModel(name='%s')>" % self.name
 
 
-class QuoteQueryset(object):
+class MyQuoteQueryset(object):
 
     def __init__(self, request):
         self.dbsession = request.dbsession
@@ -25,7 +25,7 @@ class QuoteQueryset(object):
         Get all quotes of db
         :return: list of quotes
         """
-        return self.dbsession.query(QuoteModel).order_by(QuoteModel.id).all()
+        return self.dbsession.query(MyQuoteModel).order_by(MyQuoteModel.id).all()
 
     def get_quote(self, quote_number):
         """
@@ -33,7 +33,7 @@ class QuoteQueryset(object):
         :param quote_number: quote id
         :return: quote
         """
-        return self.dbsession.query(QuoteModel).filter_by(id=quote_number).first()
+        return self.dbsession.query(MyQuoteModel).filter_by(id=quote_number).first()
 
     def get_quote_random(self):
         """
