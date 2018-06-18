@@ -5,7 +5,6 @@ import zope.sqlalchemy
 
 # import or define all models here to ensure they are attached to the
 # Base.metadata prior to any initialization routines
-from geru_challenge.models.my_quote_model import MyQuoteModel  # noqa
 from geru_challenge.models.session_model import SessionModel  # noqa
 from geru_challenge.models.request_model import RequestModel  # noqa
 

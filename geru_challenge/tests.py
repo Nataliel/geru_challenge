@@ -1,15 +1,15 @@
 import unittest
 import transaction
-
 from pyramid import testing
+
 from geru_challenge.component import parse_query_to_dict
 from geru_challenge.models import SessionModel, RequestModel
 from geru_challenge.models.meta import Base
 
-from geru_challenge.models.my_quote_model import MyQuoteModel
 from geru_challenge.models.request_model import RequestQueryset
 from geru_challenge.models.session_model import SessionQueryset
-from geru_challenge.views.my_quote_views import home_view, get_quotes, get_quote, get_quote_random
+from geru_challenge.views.my_views import home_view
+from geru_challenge.views.quote_views import get_quotes, get_quote, get_quote_random
 from geru_challenge.views.request_views import get_requests, get_requests_by_session
 from geru_challenge.views.session_views import get_sessions, get_session
 
@@ -51,13 +51,12 @@ class TestHomeViewSuccessCondition(BaseTest):
     def setUp(self):
         super(TestHomeViewSuccessCondition, self).setUp()
         self.init_database()
-
-        quote = MyQuoteModel(name='quote 2.')
-        self.session.add(quote)
+        session = SessionModel(dummy_request(self.session, 'Firefox'))
+        self.session.add(session)
 
     def test_passing_view(self):
         info = home_view(dummy_request(self.session))
-        self.assertEqual(info['quote'].name, 'quote 2.')
+        print info
         self.assertEqual(info['project'], 'Web Challenge 1.0')
 
 
@@ -68,69 +67,31 @@ class TestHomeViewFailureCondition(BaseTest):
 
 
 class TestGetQuotesViewSuccessCondition(BaseTest):
-    def setUp(self):
-        super(TestGetQuotesViewSuccessCondition, self).setUp()
-        self.init_database()
-
-        quote_1 = MyQuoteModel(name='quote 1.')
-        self.session.add(quote_1)
-
-        quote_2 = MyQuoteModel(name='quote 2.')
-        self.session.add(quote_2)
-
     def test_passing_view(self):
         info = get_quotes(dummy_request(self.session))
-        response = {'quotes': [{'name': 'quote 1.'}, {'name': 'quote 2.'}]}
-        self.assertEqual(info, response)
-
-
-class TestGetQuotesViewFailureCondition(BaseTest):
-    def setUp(self):
-        super(TestGetQuotesViewFailureCondition, self).setUp()
-        self.init_database()
-
-    def test_failing_view(self):
-        info = get_quotes(dummy_request(self.session))
-        self.assertEqual(info.status_int, 500)
+        self.assertEqual(info.keys(), ['quotes_dict'])
 
 
 class TestGetQuoteViewSuccessCondition(BaseTest):
-    def setUp(self):
-        super(TestGetQuoteViewSuccessCondition, self).setUp()
-        self.init_database()
-
-        quote_1 = MyQuoteModel(id=9, name='quote 9.')
-        self.session.add(quote_1)
-
     def test_passing_view(self):
         request = dummy_request(self.session)
-        request.matchdict = {'quote_number': 9}
+        request.matchdict = {'quote_number': 2}
         info = get_quote(request)
-        response = {"quote": 'quote 9.'}
-        self.assertEqual(info, response)
+        self.assertEqual(info['quote_dict']['quote'], 'Simple is better than complex.')
 
 
 class TestGetQuoteViewFailureCondition(BaseTest):
-    def setUp(self):
-        super(TestGetQuoteViewFailureCondition, self).setUp()
-        self.init_database()
-
-        quote_1 = MyQuoteModel(name='quote 9.')
-        self.session.add(quote_1)
-
-    def test_passing_view(self):
-        info = get_quote(dummy_request(self.session))
+    def test_failing_view(self):
+        request = dummy_request(self.session)
+        info = get_quote(request)
         self.assertEqual(info.status_int, 500)
 
 
-class TestGetQuoteRandomViewFailureCondition(BaseTest):
-    def setUp(self):
-        super(TestGetQuoteRandomViewFailureCondition, self).setUp()
-        self.init_database()
-
+class TestGetQuoteRandomViewSuccessCondition(BaseTest):
     def test_passing_view(self):
-        info = get_quote_random(dummy_request(self.session))
-        self.assertEqual(info.status_int, 500)
+        request = dummy_request(self.session)
+        info = get_quote_random(request)
+        self.assertEqual(len(info['quote_dict']), 1)
 
 
 class TestGetSessionsViewSuccessCondition(BaseTest):

@@ -27,6 +27,10 @@ Sorry, maybe the Geru API is down, try again later...
 
 @subscriber(NewRequest)
 def request_setup(event):
+    """
+    Create a unique identifier for all application requests that came from the same browser.
+    Save all requests and unique session each browser.
+    """
     request = event.request
     if not request.session.get('s3cr3t_K3Y'):
         session = SessionModel(request)
