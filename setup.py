@@ -9,21 +9,20 @@ with open(os.path.join(here, 'CHANGES.txt')) as f:
     CHANGES = f.read()
 
 requires = [
-    'pyramid',
-    'pyramid_jinja2',
-    'pyramid_debugtoolbar',
-    'pyramid_tm',
-    'SQLAlchemy',
-    'transaction',
-    'zope.sqlalchemy',
-    'waitress',
-    'requests',
+    'pyramid==1.9.2',
+    'pyramid_jinja2==2.7',
+    'pyramid_debugtoolbar==4.4',
+    'pyramid_tm==2.2',
+    'SQLAlchemy==1.2.8',
+    'transaction==2.2.1',
+    'zope.sqlalchemy==1.0',
+    'waitress==1.1.0',
+    'requests==2.19.1',
     ]
 
 tests_require = [
     'WebTest >= 1.3.1',  # py3 compat
-    'pytest',  # includes virtualenv
-    'pytest-cov',
+    'pytest==3.6.1',  # includes virtualenv
     ]
 
 setup(name='geru_challenge',
