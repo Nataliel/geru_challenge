@@ -1,0 +1,11 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+<div class="content">
+  <ul>
+    {% for quote in quotes_dict.get('quotes') %}
+    <li>{{ quote }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock content %}

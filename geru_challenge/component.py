@@ -2,6 +2,9 @@ from pyramid.events import subscriber, NewRequest
 from geru_challenge.models.request_model import RequestModel
 from geru_challenge.models.session_model import SessionModel
 
+
+geru_api = 'https://1c22eh3aj8.execute-api.us-east-1.amazonaws.com/challenge/'
+
 db_err_msg = """
 Pyramid is having a problem using your SQL database.  The problem
 might be caused by one of the following things:
@@ -16,6 +19,10 @@ might be caused by one of the following things:
 
 After you fix the problem, please restart the Pyramid application to
 try it again.
+"""
+
+api_err_msg = """
+Sorry, maybe the Geru API is down, try again later...
 """
 
 @subscriber(NewRequest)
