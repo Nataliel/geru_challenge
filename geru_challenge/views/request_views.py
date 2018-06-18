@@ -14,7 +14,7 @@ def get_requests(request):
     request_query = RequestQueryset(request).get_requests()
 
     if request_query:
-        return parse_query_to_dict(request_query, 'request')
+        return parse_query_to_dict(request_query, 'requests')
 
     return Response(db_err_msg, content_type='text/plain', status=500)
 
