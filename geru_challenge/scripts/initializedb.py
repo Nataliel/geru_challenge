@@ -7,7 +7,7 @@ from pyramid.scripts.common import parse_vars
 
 from geru_challenge.models import get_engine, get_session_factory, get_tm_session
 from geru_challenge.models.meta import Base
-from geru_challenge.models.quote_model import QuoteModel
+from geru_challenge.models.my_quote_model import MyQuoteModel
 
 
 
@@ -36,5 +36,5 @@ def main(argv=sys.argv):
 
         # loads the quotes fixture into the database
         for count in range(1, 10):
-            model = QuoteModel(name='quote %s.' % count)
+            model = MyQuoteModel(name='quote %s.' % count)
             dbsession.add(model)

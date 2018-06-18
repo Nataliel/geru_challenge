@@ -6,10 +6,10 @@ from geru_challenge.component import parse_query_to_dict
 from geru_challenge.models import SessionModel, RequestModel
 from geru_challenge.models.meta import Base
 
-from geru_challenge.models.quote_model import QuoteModel
+from geru_challenge.models.my_quote_model import MyQuoteModel
 from geru_challenge.models.request_model import RequestQueryset
 from geru_challenge.models.session_model import SessionQueryset
-from geru_challenge.views.quote_views import home_view, get_quotes, get_quote, get_quote_random
+from geru_challenge.views.my_quote_views import home_view, get_quotes, get_quote, get_quote_random
 from geru_challenge.views.request_views import get_requests, get_requests_by_session
 from geru_challenge.views.session_views import get_sessions, get_session
 
@@ -52,7 +52,7 @@ class TestHomeViewSuccessCondition(BaseTest):
         super(TestHomeViewSuccessCondition, self).setUp()
         self.init_database()
 
-        quote = QuoteModel(name='quote 2.')
+        quote = MyQuoteModel(name='quote 2.')
         self.session.add(quote)
 
     def test_passing_view(self):
@@ -72,10 +72,10 @@ class TestGetQuotesViewSuccessCondition(BaseTest):
         super(TestGetQuotesViewSuccessCondition, self).setUp()
         self.init_database()
 
-        quote_1 = QuoteModel(name='quote 1.')
+        quote_1 = MyQuoteModel(name='quote 1.')
         self.session.add(quote_1)
 
-        quote_2 = QuoteModel(name='quote 2.')
+        quote_2 = MyQuoteModel(name='quote 2.')
         self.session.add(quote_2)
 
     def test_passing_view(self):
@@ -99,7 +99,7 @@ class TestGetQuoteViewSuccessCondition(BaseTest):
         super(TestGetQuoteViewSuccessCondition, self).setUp()
         self.init_database()
 
-        quote_1 = QuoteModel(id=9, name='quote 9.')
+        quote_1 = MyQuoteModel(id=9, name='quote 9.')
         self.session.add(quote_1)
 
     def test_passing_view(self):
@@ -115,7 +115,7 @@ class TestGetQuoteViewFailureCondition(BaseTest):
         super(TestGetQuoteViewFailureCondition, self).setUp()
         self.init_database()
 
-        quote_1 = QuoteModel(name='quote 9.')
+        quote_1 = MyQuoteModel(name='quote 9.')
         self.session.add(quote_1)
 
     def test_passing_view(self):

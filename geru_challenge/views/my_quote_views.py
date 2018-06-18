@@ -4,7 +4,7 @@ from pyramid.response import Response
 from pyramid.view import view_config
 from geru_challenge.component import parse_query_to_dict
 
-from geru_challenge.models.quote_model import MyQuoteModel, MyQuoteQueryset
+from geru_challenge.models.my_quote_model import MyQuoteModel, MyQuoteQueryset
 
 
 db_err_msg = """
@@ -39,7 +39,7 @@ def home_view(request):
     return {'quote': quote, 'project': 'Web Challenge 1.0'}
 
 
-@view_config(route_name='get_quotes', renderer='json')
+@view_config(route_name='get_my_quotes', renderer='json')
 def get_quotes(request):
     """
     Get all quotes of db and pass to api as response
@@ -54,7 +54,7 @@ def get_quotes(request):
     return Response(db_err_msg, content_type='text/plain', status=500)
 
 
-@view_config(route_name='get_quote', renderer='json')
+@view_config(route_name='get_my_quote', renderer='json')
 def get_quote(request):
     """
     Get a quote by id of db and pass to api as response
@@ -70,7 +70,7 @@ def get_quote(request):
     return Response(db_err_msg, content_type='text/plain', status=500)
 
 
-@view_config(route_name='get_quote_random', renderer='json')
+@view_config(route_name='get_my_quote_random', renderer='json')
 def get_quote_random(request):
     """
     Get a random quote of db and pass to api as response
